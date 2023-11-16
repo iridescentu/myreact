@@ -54,37 +54,25 @@ const IconTitle = styled.p`
   padding: 0 5px;
 `;
 
-// export function Main() {
-//   // isPopupVisible 상태 변수를 선언하고 초기값 false로 설정
-//   //  setIsPopupVisible은 isPopupVisible 상태 변수를 업데이트하는 함수
-//   const [isAboutUsVisible, setIsAboutUsVisible] = useState(false);
-//   const [isOurProjectVisible, setIsOurProjectVisible] = useState(false);
-//   const popupClick = () => {
-//     if (!isAboutUsVisible) {
-//       setIsAboutUsVisible(true);
-//     } else if (!isOurProjectVisible) {
-//       setIsOurProjectVisible(true);
-//     }
-//     // 처음 한번만 띄우기
-//     // setIsPopup(true);
-//     // toggle로 사용하기
-//     // setIsPopupVisible(!isPopupVisible);
-//     // setIsPopup((prev) => !prev);
-//   };
-
 export function Main() {
   const [modalStack, setModalStack] = useState([]);
 
   const openModal = (type) => {
     if (!modalStack.includes(type)) {
-      setModalStack((prev) => [...prev.filter((item) => item !== type), type]);
+      setModalStack((prev) => [
+        ...prev.filter((item) => item.type !== type),
+        { type, id: Date.now() },
+      ]);
     } else {
-      setModalStack((prev) => [...prev.filter((item) => item !== type), type]);
+      setModalStack((prev) => [
+        ...prev.filter((item) => item.type !== type),
+        { type, id: Date.now() },
+      ]);
     }
   };
 
-  const closeModal = () => {
-    setModalStack((prev) => prev.slice(0, -1));
+  const closeModal = (id) => {
+    setModalStack((prev) => prev.filter((item) => item.id !== id));
   };
 
   // 디스코드 서버 링크
@@ -136,11 +124,13 @@ export function Main() {
         </Icon>
       </Container>
 
-      {modalStack.map((type, index) => {
+      {modalStack.map(({ type, id }) => {
         if (type === "aboutUs") {
-          return <AboutUs key={index} onAboutUsHide={closeModal} />;
+          return <AboutUs key={id} onAboutUsHide={() => closeModal(id)} />;
         } else if (type === "ourProject") {
-          return <OurProject key={index} onOurProjectHide={closeModal} />;
+          return (
+            <OurProject key={id} onOurProjectHide={() => closeModal(id)} />
+          );
         }
         return null;
       })}
