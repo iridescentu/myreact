@@ -1,17 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import AppProject from './AppProj';
+import React from "react";
+import ReactDOM from "react-dom/client";
+// import App from "./App";
+// import AppProject from "./AppProj";
+// import App from "./App";
+import AppOWS from "./AppOWS";
+// import AppGameShop from "./AppGameShop";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 
-// root.render(
-//     <App />
-// );
+root.render(<AppOWS />);
 
-root.render(
-    <AppProject />
-);
+// root.render(<AppGameShop />);
+
+// 프로젝트
+// root.render(<AppProject />);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
